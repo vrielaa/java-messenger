@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Java Messenger</title>
+</head>
+<body>
+<h1>Java Messenger</h1>
+
+<h2>Register</h2>
+<form onsubmit="event.preventDefault(); register()">
+    <input id="reg-login" placeholder="Login">
+    <input id="reg-pass" type="password" placeholder="Password">
+    <button type="submit">Register</button>
+</form>
+
+<h2>Login</h2>
+<form onsubmit="event.preventDefault(); login()">
+    <input id="log-login" placeholder="Login">
+    <input id="log-pass" type="password" placeholder="Password">
+    <button type="submit">Login</button>
+</form>
+
+<h2>Session</h2>
+<button onclick="checkMe()">Who am I?</button>
+<button onclick="logout()">Logout</button>
+
+<h2>Send Message</h2>
+<form onsubmit="event.preventDefault(); sendMessage()">
+    <input id="msg-to" placeholder="Receiver">
+    <input id="msg-content" placeholder="Message">
+    <button type="submit">Send</button>
+</form>
+
+<h2>My Messages</h2>
+<button onclick="getMessages()">Load My Messages</button>
+<ul id="messages"></ul>
+
+<script>
+    function register() {
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                login: document.getElementById('reg-login').value,
+                password: document.getElementById('reg-pass').value
+            })
+        }).then(r => r.text()).then(alert);
+    }
+
+    function login() {
+        fetch('/api/login', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                login: document.getElementById('log-login').value,
+                password: document.getElementById('log-pass').value
+            })
+        }).then(r => r.text()).then(alert);
+    }
+
+    function checkMe() {
+        fetch('/api/me', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(r => r.text()).then(alert);
+    }
+
+    function logout() {
+        fetch('/api/logout', {
+            method: 'POST',
+            credentials: 'include'
+        }).then(r => r.text()).then(alert);
+    }
+
+    function sendMessage() {
+        fetch('/api/message', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                receiver: document.getElementById('msg-to').value,
+                content: document.getElementById('msg-content').value
+            })
+        }).then(r => r.text()).then(alert);
+    }
+
+    function getMessages() {
+        fetch('/api/messages', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(r => {
+            if (!r.ok) {
+                alert("Unauthorized. Please login.");
+                return;
+            }
+            return r.json();
+        }).then(data => {
+            if (!data) return;
+            const list = document.getElementById('messages');
+            list.innerHTML = '';
+            data.forEach(msg => {
+                const li = document.createElement('li');
+                li.textContent = `[${msg.timestamp}] From: ${msg.sender} - ${msg.content}`;
+                list.appendChild(li);
+            });
+        });
+    }
+
+</script>
+</body>
+</html>
