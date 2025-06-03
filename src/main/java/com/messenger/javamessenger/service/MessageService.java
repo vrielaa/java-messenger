@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +21,7 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
+    @Transactional
     public String sendMessage(HttpServletRequest request, String receiver, String content) {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
