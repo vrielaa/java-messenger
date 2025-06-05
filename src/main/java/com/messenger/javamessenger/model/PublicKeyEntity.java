@@ -3,18 +3,25 @@ package com.messenger.javamessenger.model;
 import java.util.UUID;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "public_key_entity")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PublicKeyEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
   @Column(nullable = false)
-  private String userId;
+  private UUID userId;
 
   /**
    * Base 64 encoded public key in DER format

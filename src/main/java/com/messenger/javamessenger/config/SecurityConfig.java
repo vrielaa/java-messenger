@@ -36,9 +36,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/message").fullyAuthenticated()
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                )
                 .formLogin(login -> login.loginPage("/login"))
                 .logout(logout -> logout.logoutUrl("/logout"));
 
