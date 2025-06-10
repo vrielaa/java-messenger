@@ -24,6 +24,6 @@ public class PublicKeyService {
     }
 
     public List<PublicKeyEntity> getAllForUserId(UUID userId) {
-        return publicKeyRepository.getForUserId(userId);
+        return publicKeyRepository.findByUserId(userId);
     }
 }

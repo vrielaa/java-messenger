@@ -2,7 +2,7 @@ package com.messenger.javamessenger.controller;
 
 import com.messenger.javamessenger.dto.PublicKeyDto;
 import com.messenger.javamessenger.model.PublicKeyEntity;
-import com.messenger.javamessenger.security.UuidAwareUserDetails;
+import com.messenger.javamessenger.security.UserDetailsWithEntity;
 import com.messenger.javamessenger.service.PublicKeyService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +29,7 @@ public class PublicKeyController {
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     public PublicKeyEntity create(@RequestBody PublicKeyDto publicKeyDto) {
-        var user = (UuidAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return publicKeyService.save(user.getUuid(), publicKeyDto);
+        var user = (UserDetailsWithEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return publicKeyService.save(user.getUser().getId(), publicKeyDto);
     }
 }

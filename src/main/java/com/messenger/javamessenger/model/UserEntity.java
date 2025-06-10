@@ -1,11 +1,11 @@
 package com.messenger.javamessenger.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 import java.util.UUID;
 
@@ -24,5 +24,6 @@ public class UserEntity {
     private String login;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String passwordHash;
 }
