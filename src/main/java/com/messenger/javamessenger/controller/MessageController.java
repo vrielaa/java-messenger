@@ -24,12 +24,12 @@ public class MessageController {
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     public void sendMessage(@RequestBody MessageDTO dto) {
-        messageService.sendMessage(dto, principalUtils.getPrincipal());
+        messageService.sendMessage(dto, principalUtils.getCurrentUserEntity());
     }
 
     @GetMapping("/{otherUserId}")
     @PreAuthorize("isAuthenticated()")
     public List<MessageEntity> getMessages(@PathVariable UUID otherUserId) {
-        return messageService.getAllMessages(principalUtils.getPrincipal(), otherUserId);
+        return messageService.getAllMessages(principalUtils.getCurrentUserEntity(), otherUserId);
     }
 }
