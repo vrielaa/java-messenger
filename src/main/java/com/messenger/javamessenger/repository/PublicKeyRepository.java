@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface PublicKeyRepository extends JpaRepository<PublicKeyEntity, UUID> {
-    List<PublicKeyEntity> getForUserId(UUID userId);
+    List<PublicKeyEntity> findByUserId(UUID userId);
 }
