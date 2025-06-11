@@ -9,8 +9,25 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * @interface MessageRepository
+ * @brief Repozytorium JPA do operacji na encji MessageEntity.
+ *
+ * Umożliwia zapisywanie, wyszukiwanie i pobieranie wiadomości z bazy danych.
+ */
 @Repository
 public interface MessageRepository extends JpaRepository<MessageEntity, UUID> {
+
+    /**
+     * @brief Pobiera wszystkie wiadomości między dwoma użytkownikami.
+     *
+     * Wyszukuje wiadomości, gdzie nadawcą i odbiorcą są podane identyfikatory (w dowolnej kolejności).
+     * Wyniki są posortowane rosnąco względem czasu wysłania.
+     *
+     * @param userId1 Identyfikator pierwszego użytkownika.
+     * @param userId2 Identyfikator drugiego użytkownika.
+     * @return Lista wiadomości między użytkownikami.
+     */
     @Query("""
     SELECT m FROM MessageEntity m
     WHERE 

@@ -15,35 +15,64 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * @class UserController
+ * @brief Kontroler REST do operacji użytkownika: rejestracja, logowanie, lista użytkowników online.
+ */
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
-    private final UserService userService;
-    private final AuthenticationManager authenticationManager;
-    private final SecurityContextHolderStrategy contextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
-    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
+    private final UserService userService; ///< Serwis do obsługi operacji użytkownika.
+    private final AuthenticationManager authenticationManager; ///< Menedżer uwierzytelniania Spring Security.
+    private final SecurityContextHolderStrategy contextHolderStrategy = SecurityContextHolder.getContextHolderStrategy(); ///< Strategia trzymania kontekstu bezpieczeństwa.
+    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository(); ///< Repozytorium kontekstu bezpieczeństwa w sesji.
+
+    /**
+     * @brief Konstruktor kontrolera użytkownika.
+     * @param userService Serwis użytkownika.
+     * @param authenticationManager Menedżer uwierzytelniania.
+     */
     public UserController(UserService userService, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * @brief Rejestruje nowego użytkownika.
+     *
+     * Endpoint dostępny publicznie, przyjmujący dane użytkownika i zwracający zarejestrowany obiekt.
+     *
+     * @param userDTO Dane rejestracyjne (login, hasło).
+     * @return Obiekt UserEntity nowo zarejestrowanego użytkownika.
+     */
     @PostMapping("/register")
     @PreAuthorize("permitAll()")
     public UserEntity register(@RequestBody UserDTO userDTO) {
         return userService.registerUser(userDTO);
     }
 
+    /**
+     * @brief Loguje użytkownika i zapisuje kontekst bezpieczeństwa.
+     *
+     * Endpoint przyjmujący dane logowania, wykonujący uwierzytelnienie oraz zapis kontekstu w sesji HTTP.
+     *
+     * @param userDTO Dane logowania (login, hasło).
+     * @param request Obiekt żądania HTTP.
+     * @param response Obiekt odpowiedzi HTTP.
+     * @return Obiekt UserEntity zalogowanego użytkownika.
+     */
     @PostMapping("/login")
     @PreAuthorize("permitAll()")
     public UserEntity login(@RequestBody UserDTO userDTO,
-                      HttpServletRequest request,
-                      HttpServletResponse response) {
+                            HttpServletRequest request,
+                            HttpServletResponse response) {
+
         UsernamePasswordAuthenticationToken authRequest = UsernamePasswordAuthenticationToken.unauthenticated(
                 userDTO.getLogin(),
                 userDTO.getPassword());
@@ -57,6 +86,25 @@ public class UserController {
 
         securityContextRepository.saveContext(context, request, response);
 
+        userService.markUserOnline(principal.getUsername()); ///< Oznaczenie użytkownika jako online
+
         return principal.getUser();
+    }
+
+    /**
+     * @brief Zwraca listę użytkowników online (bez aktualnego użytkownika).
+     *
+     * Endpoint tylko dla uwierzytelnionych użytkowników.
+     *
+     * @param auth Obiekt uwierzytelnienia zawierający login aktualnego użytkownika.
+     * @return Lista UserDTO reprezentujących użytkowników online.
+     */
+    @GetMapping("/online")
+    @PreAuthorize("isAuthenticated()")
+    public List<UserDTO> getOnlineUsers(Authentication auth) {
+        String currentLogin = auth.getName();
+        return userService.getOnlineUsersExcept(currentLogin).stream()
+                .map(user -> new UserDTO(user.getId(), user.getLogin()))
+                .collect(Collectors.toList());
     }
 }

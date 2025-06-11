@@ -1,0 +1,120 @@
+/*
+==================================================
+Dokumentacja stylów LoginForm.css
+==================================================
+
+Podstawowe ustawienia dla całego dokumentu
+--------------------------------------------------
+Ustawia czcionkę, usuwa marginesy i ustawia tło gradientowe na cały ekran:
+*/
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    height: 100vh;
+}
+
+/*
+Kontener logowania
+--------------------------------------------------
+Wyśrodkowuje formularz logowania pionowo i poziomo za pomocą flexboxa:
+*/
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/*
+Formularz logowania
+--------------------------------------------------
+Styl formularza: tło, padding, zaokrąglenia, cień i rozmieszczenie elementów pionowo:
+*/
+.login-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 200%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/*
+Nagłówek formularza
+--------------------------------------------------
+Nagłówek formularza, wyśrodkowany, kolor dopasowany do tła:
+*/
+.login-form h2 {
+    text-align: center;
+    color: #2a5298;
+}
+
+/*
+Pola tekstowe formularza
+--------------------------------------------------
+Inputy z paddingiem, delikatną ramką i zaokrąglonymi rogami:
+*/
+.login-form input {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+/*
+Przycisk logowania
+--------------------------------------------------
+Przycisk z tłem w kolorze akcentu, zaokrągleniem i efektem hover:
+*/
+.login-form button {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: #2a5298;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-form button:hover {
+    background: #1e3c72;
+}
+
+/*
+Komunikat błędu
+--------------------------------------------------
+Styl dla wiadomości błędu — na czerwono i wyśrodkowany:
+*/
+.error {
+    color: red;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/*
+Link do przełączenia formularza
+--------------------------------------------------
+Styl przycisku do zmiany na rejestrację lub logowanie:
+*/
+.switch-link {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.switch-link button {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+.switch-link button:hover {
+    color: #0056b3;
+}
