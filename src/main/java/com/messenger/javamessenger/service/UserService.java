@@ -13,17 +13,43 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
+/**
+ * @class UserService
+ * @brief Serwis odpowiedzialny za logikę biznesową związaną z użytkownikami.
+ *
+ * Obsługuje rejestrację, walidację, status online i dostęp do listy użytkowników.
+ */
 @Service
 public class UserService {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
+    private final UserRepository userRepository; ///< Repozytorium użytkowników.
+    private final PasswordEncoder passwordEncoder; ///< Encoder haseł.
+    private final Set<String> onlineUsers = ConcurrentHashMap.newKeySet(); ///< Zbiór loginów użytkowników online.
+
+    /**
+     * @brief Konstruktor serwisu użytkownika.
+     * @param userRepository Repozytorium użytkowników.
+     * @param passwordEncoder Encoder haseł.
+     */
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * @brief Rejestruje nowego użytkownika w systemie.
+     *
+     * Sprawdza unikalność loginu, waliduje dane i zapisuje użytkownika z hasłem zakodowanym.
+     *
+     * @param dto Obiekt DTO z loginem i hasłem.
+     * @return Zarejestrowana encja użytkownika.
+     * @throws UserLoginIsTakenException jeśli login jest już zajęty.
+     * @throws InvalidFieldException jeśli login lub hasło są puste.
+     */
     public UserEntity registerUser(UserDTO dto) {
         if (userRepository.existsByLogin(dto.getLogin())) {
             throw new UserLoginIsTakenException(dto.getLogin());
@@ -35,6 +61,12 @@ public class UserService {
                 .build());
     }
 
+    /**
+     * @brief Waliduje dane użytkownika (login i hasło).
+     *
+     * @param dto Dane użytkownika do walidacji.
+     * @throws InvalidFieldException jeśli dane są niepoprawne (puste lub null).
+     */
     private void validateUserDto(UserDTO dto) throws ResponseStatusException {
         if (dto.getLogin() == null || dto.getLogin().isEmpty()) {
             throw new InvalidFieldException("Login shall not be empty nor null");
@@ -44,8 +76,40 @@ public class UserService {
         }
     }
 
+    /**
+     * @brief Zwraca listę wszystkich użytkowników.
+     * @return Lista wszystkich użytkowników z bazy danych.
+     */
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
 
+    /**
+     * @brief Oznacza użytkownika jako online.
+     * @param login Login użytkownika do oznaczenia.
+     */
+    public void markUserOnline(String login) {
+        onlineUsers.add(login);
+    }
+
+    /**
+     * @brief Oznacza użytkownika jako offline.
+     * @param login Login użytkownika do usunięcia z listy online.
+     */
+    public void markUserOffline(String login) {
+        onlineUsers.remove(login);
+    }
+
+    /**
+     * @brief Zwraca listę użytkowników online z wyłączeniem aktualnego.
+     *
+     * @param login Login użytkownika, który ma być pominięty.
+     * @return Lista encji użytkowników online, poza wskazanym.
+     */
+    public List<UserEntity> getOnlineUsersExcept(String login) {
+        return userRepository.findAll().stream()
+                .filter(user -> onlineUsers.contains(user.getLogin()))
+                .filter(user -> !user.getLogin().equals(login))
+                .collect(Collectors.toList());
+    }
 }

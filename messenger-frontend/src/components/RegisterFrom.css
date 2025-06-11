@@ -1,0 +1,56 @@
+/* Rejestracja - styl podobny do logowania */
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-container h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #1f3f91;
+    font-weight: bold;
+}
+
+.auth-container input {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease-in-out;
+    background-color: #eef4ff;
+}
+
+.auth-container input:focus {
+    outline: none;
+    border-color: #1f3f91;
+}
+
+.auth-container button {
+    width: 100%;
+    padding: 0.6rem;
+    background-color: #1f3f91;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.auth-container button:hover {
+    background-color: #153273;
+}
+
+/* Styl wiadomości (sukces/błąd) */
+.auth-container p {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+}
+
+.auth-container p:empty {
+    display: none;
+}

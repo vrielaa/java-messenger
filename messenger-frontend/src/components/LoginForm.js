@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './LoginForm.css';
 
-function LoginForm({ onLoginSuccess }) {
+function LoginForm({ onLoginSuccess, onSwitchToRegister }) {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -23,7 +23,7 @@ function LoginForm({ onLoginSuccess }) {
             if (response.ok) {
                 const user = await response.json();
                 console.log('Zalogowano jako:', user.login);
-                onLoginSuccess(user); // możesz też przekazać dane usera dalej
+                onLoginSuccess(user);
             } else {
                 const err = await response.text();
                 console.error('Błąd logowania:', err);
@@ -55,6 +55,22 @@ function LoginForm({ onLoginSuccess }) {
                 />
                 <button type="submit">Zaloguj</button>
                 {error && <p className="error">{error}</p>}
+                <div style={{textAlign: 'center', marginTop: '1rem'}}>
+                    <p style={{margin: 0}}>
+                        Nie masz konta?
+                    </p>
+                    <button type="button" onClick={onSwitchToRegister} style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#007bff',
+                        cursor: 'pointer',
+                        textDecoration: 'underline',
+                        fontSize: '0.9rem'
+                    }}>
+                        Zarejestruj się
+                    </button>
+                </div>
+
             </form>
         </div>
     );

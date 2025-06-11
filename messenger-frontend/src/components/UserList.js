@@ -1,4 +1,6 @@
+// src/components/UserList.js
 import React, { useEffect, useState } from 'react';
+import './UserList.css';
 
 function UserList({ onUserSelect }) {
     const [users, setUsers] = useState([]);
@@ -27,13 +29,15 @@ function UserList({ onUserSelect }) {
     }, []);
 
     return (
-        <div>
-            <h3>Użytkownicy online:</h3>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <ul>
+        <div className="userlist-container">
+            <h3 className="userlist-title">Użytkownicy online</h3>
+            {error && <p className="userlist-error">{error}</p>}
+            <ul className="userlist-list">
                 {users.map((user) => (
-                    <li key={user.id}>
-                        <button onClick={() => onUserSelect(user)}>{user.login}</button>
+                    <li key={user.id} className="userlist-item">
+                        <button className="userlist-button" onClick={() => onUserSelect(user)}>
+                            {user.login}
+                        </button>
                     </li>
                 ))}
             </ul>
