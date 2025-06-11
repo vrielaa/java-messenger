@@ -10,15 +10,36 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+/**
+ * @class UserDetailsServiceImpl
+ * @brief Implementacja UserDetailsService dla Spring Security.
+ *
+ * Umożliwia ładowanie danych użytkownika na podstawie loginu (username).
+ * Wymagana przez mechanizm uwierzytelniania Spring Security.
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserRepository userRepository; ///< Repozytorium użytkowników.
 
+    /**
+     * @brief Konstruktor z wstrzykiwaniem repozytorium użytkownika.
+     * @param userRepository Repozytorium do wyszukiwania użytkowników po loginie.
+     */
     public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    /**
+     * @brief Ładuje dane użytkownika na podstawie loginu.
+     *
+     * Wyszukuje użytkownika w bazie i zwraca obiekt implementujący UserDetails.
+     * Jeśli użytkownik nie zostanie znaleziony, rzuca wyjątek UsernameNotFoundException.
+     *
+     * @param login Login użytkownika.
+     * @return Obiekt UserDetails zawierający dane użytkownika i przypisaną rolę.
+     * @throws UsernameNotFoundException jeśli użytkownik nie istnieje.
+     */
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByLogin(login)

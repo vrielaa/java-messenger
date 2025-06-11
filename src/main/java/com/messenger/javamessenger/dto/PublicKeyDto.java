@@ -4,9 +4,21 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @class PublicKeyDto
+ * @brief DTO służące do przesyłania klucza publicznego w formacie base64.
+ *
+ * Używane podczas rejestracji nowego klucza publicznego użytkownika.
+ */
 @Data
 @NoArgsConstructor
 public class PublicKeyDto {
+
+    /**
+     * @brief Klucz publiczny w formacie DER zakodowanym jako Base64.
+     *
+     * Pole nie może być puste – walidowane adnotacją @NotBlank.
+     */
     @NotBlank
     private String base64Der;
 }
