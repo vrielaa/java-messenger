@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -41,4 +43,9 @@ public class UserService {
             throw new InvalidFieldException("Password shall not be empty nor null");
         }
     }
+
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
+    }
+
 }

@@ -15,10 +15,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -59,4 +59,16 @@ public class UserController {
 
         return principal.getUser();
     }
+
+
+    @GetMapping("/online")
+    @PreAuthorize("isAuthenticated()")
+    public List<UserDTO> getAllUsers() {
+        return userService.getAllUsers().stream()
+                .map(user -> new UserDTO(user.getId(), user.getLogin()))
+                .collect(Collectors.toList());
+    }
+
+
+
 }
