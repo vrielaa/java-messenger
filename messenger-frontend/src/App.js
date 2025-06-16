@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import UserList from './components/UserList';
@@ -15,6 +15,19 @@ function App() {
         setCurrentUser(user); // 👈 zapisz użytkownika
         setLoggedIn(true);
     };
+
+    useEffect(() => {
+        const fetchStatus = async () => {
+            const res = await fetch(`http://localhost:8080/api/v1/user/me`, {
+                "credentials": "include"
+            });
+            console.log(res);
+            if (res.ok) {
+                handleLoginSuccess(await res.json());
+            }
+        };
+        fetchStatus();
+    }, []);
 
     const handleRegisterSuccess = () => setIsRegistering(false);
 

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import './LoginForm.css';
+import React, {useState} from 'react';
+import './register-login.css';
+import {ensureE2eeKeysGeneratedAndOnServer} from "../utils/e2ee";
 
 function LoginForm({ onLoginSuccess, onSwitchToRegister }) {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,6 +25,7 @@ function LoginForm({ onLoginSuccess, onSwitchToRegister }) {
             if (response.ok) {
                 const user = await response.json();
                 console.log('Zalogowano jako:', user.login);
+                await ensureE2eeKeysGeneratedAndOnServer(user);
                 onLoginSuccess(user);
             } else {
                 const err = await response.text();
@@ -36,8 +39,8 @@ function LoginForm({ onLoginSuccess, onSwitchToRegister }) {
     };
 
     return (
-        <div className="login-container">
-            <form className="login-form" onSubmit={handleSubmit}>
+        <div className="login-register-container">
+            <form className="login-register-form" onSubmit={handleSubmit}>
                 <h2>Zaloguj się</h2>
                 <input
                     type="text"

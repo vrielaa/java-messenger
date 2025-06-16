@@ -40,6 +40,6 @@ public class PublicKeyEntity {
    *
    * Przechowuje binarną reprezentację klucza w formacie DER zakodowaną jako tekst Base64.
    */
-  @Column
+  @Column(length = 512)
   private String publicKeyBase64Der;
 }
