@@ -1,6 +1,6 @@
 /*
 ==================================================
-Dokumentacja stylów LoginForm.css
+Dokumentacja stylów register-login.css
 ==================================================
 
 Podstawowe ustawienia dla całego dokumentu
@@ -15,11 +15,11 @@ body {
 }
 
 /*
-Kontener logowania
+Kontener logowania/rejestracji
 --------------------------------------------------
 Wyśrodkowuje formularz logowania pionowo i poziomo za pomocą flexboxa:
 */
-.login-container {
+.login-register-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,11 +27,11 @@ Wyśrodkowuje formularz logowania pionowo i poziomo za pomocą flexboxa:
 }
 
 /*
-Formularz logowania
+Formularz logowania/rejestracji
 --------------------------------------------------
 Styl formularza: tło, padding, zaokrąglenia, cień i rozmieszczenie elementów pionowo:
 */
-.login-form {
+.login-register-form {
     background: white;
     padding: 2rem;
     border-radius: 1rem;
@@ -66,11 +66,11 @@ Inputy z paddingiem, delikatną ramką i zaokrąglonymi rogami:
 }
 
 /*
-Przycisk logowania
+Przycisk logowania/rejestracji
 --------------------------------------------------
 Przycisk z tłem w kolorze akcentu, zaokrągleniem i efektem hover:
 */
-.login-form button {
+.login-register-form button {
     padding: 0.75rem;
     border: none;
     border-radius: 0.5rem;
@@ -81,7 +81,7 @@ Przycisk z tłem w kolorze akcentu, zaokrągleniem i efektem hover:
     transition: background 0.3s ease;
 }
 
-.login-form button:hover {
+.login-register-form button:hover {
     background: #1e3c72;
 }
 

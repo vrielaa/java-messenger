@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './register-login.css';
 
 function RegisterForm({ onRegisterSuccess }) {
     const [login, setLogin] = useState('');
@@ -29,9 +30,9 @@ function RegisterForm({ onRegisterSuccess }) {
     };
 
     return (
-        <div>
-            <h2>Rejestracja</h2>
-            <form onSubmit={handleSubmit}>
+        <div className={"login-register-container"}>
+            <form onSubmit={handleSubmit} className={"login-register-form"}>
+                <h2>Rejestracja</h2>
                 <input
                     type="text"
                     placeholder="Login"
@@ -47,8 +48,23 @@ function RegisterForm({ onRegisterSuccess }) {
                     required
                 />
                 <button type="submit">Zarejestruj się</button>
+                {message && <p className="error">{message}</p>}
+                <div style={{textAlign: 'center', marginTop: '1rem'}}>
+                    <p style={{margin: 0}}>
+                        Masz konto?
+                    </p>
+                    <button type="button" onClick={onRegisterSuccess} style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#007bff',
+                        cursor: 'pointer',
+                        textDecoration: 'underline',
+                        fontSize: '0.9rem'
+                    }}>
+                        Zaloguj się
+                    </button>
+                </div>
             </form>
-            <p>{message}</p>
         </div>
     );
 }

@@ -52,6 +52,7 @@ public class MessageEntity {
      * Używa konwertera JSON do mapowania w bazie danych.
      */
     @Convert(converter = JsonMapConverter.class)
+    @Column(length = 1024 * 1024)
     private Map<String, String> publicKeyIdToEncryptedContentMap;
 
     /**

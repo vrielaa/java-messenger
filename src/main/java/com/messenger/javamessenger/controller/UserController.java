@@ -4,6 +4,7 @@ import com.messenger.javamessenger.dto.UserDTO;
 import com.messenger.javamessenger.model.UserEntity;
 import com.messenger.javamessenger.security.UserDetailsWithEntity;
 import com.messenger.javamessenger.service.UserService;
+import com.messenger.javamessenger.util.PrincipalUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,16 +32,18 @@ public class UserController {
     private final UserService userService; ///< Serwis do obsługi operacji użytkownika.
     private final AuthenticationManager authenticationManager; ///< Menedżer uwierzytelniania Spring Security.
     private final SecurityContextHolderStrategy contextHolderStrategy = SecurityContextHolder.getContextHolderStrategy(); ///< Strategia trzymania kontekstu bezpieczeństwa.
-    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository(); ///< Repozytorium kontekstu bezpieczeństwa w sesji.
+    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
+    private final PrincipalUtils principalUtils; ///< Repozytorium kontekstu bezpieczeństwa w sesji.
 
     /**
      * @brief Konstruktor kontrolera użytkownika.
      * @param userService Serwis użytkownika.
      * @param authenticationManager Menedżer uwierzytelniania.
      */
-    public UserController(UserService userService, AuthenticationManager authenticationManager) {
+    public UserController(UserService userService, AuthenticationManager authenticationManager, PrincipalUtils principalUtils) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
+        this.principalUtils = principalUtils;
     }
 
     /**
@@ -55,6 +58,12 @@ public class UserController {
     @PreAuthorize("permitAll()")
     public UserEntity register(@RequestBody UserDTO userDTO) {
         return userService.registerUser(userDTO);
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("isAuthenticated")
+    public UserEntity me() {
+        return principalUtils.getCurrentUserEntity();
     }
 
     /**

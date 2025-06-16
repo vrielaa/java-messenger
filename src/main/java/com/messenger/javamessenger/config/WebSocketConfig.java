@@ -17,15 +17,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     /**
      * @brief Konfiguruje brokera wiadomości.
      *
-     * Włącza prosty broker w pamięci, który obsługuje wiadomości przesyłane na prefiksy "/topic".
-     * Ustawia prefiks "/app" jako punkt wyjściowy dla wiadomości wychodzących od klienta do serwera.
+     * Włącza prosty broker w pamięci, który obsługuje wiadomości przesyłane na prefiksy "/topic/messages".
      *
      * @param registry Obiekt MessageBrokerRegistry służący do konfiguracji brokera wiadomości.
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/topic"); ///< Włączenie brokera dla ścieżek subskrypcji.
-        registry.setApplicationDestinationPrefixes("/app"); ///< Prefiks dla wiadomości klient -> serwer.
+        registry.enableSimpleBroker("/topic/messages"); ///< Włączenie brokera dla ścieżek subskrypcji wiadomości
     }
 
     /**
@@ -39,7 +37,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws") ///< Główny endpoint STOMP.
-                .setAllowedOrigins("*") ///< Zezwolenie na połączenia z dowolnych domen (uwaga produkcja!).
+                .setAllowedOrigins("http://localhost:3000")
                 .withSockJS(); ///< Włączenie SockJS jako fallback.
     }
 }
