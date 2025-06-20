@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import './UserList.css';
 
-function UserList({ onUserSelect }) {
+function UserList({ onUserSelect, currentUser, logoutCallback }) {
     const [users, setUsers] = useState([]);
     const [error, setError] = useState('');
 
@@ -30,6 +30,12 @@ function UserList({ onUserSelect }) {
 
     return (
         <div className="userlist-container">
+            Zalogowany jako <b>{currentUser.login}</b>
+            <br />
+            <br />
+            <button className="userlist-button" onClick={logoutCallback}>
+               Wyloguj się
+            </button>
             <h3 className="userlist-title">Użytkownicy online</h3>
             {error && <p className="userlist-error">{error}</p>}
             <ul className="userlist-list">

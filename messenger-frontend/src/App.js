@@ -16,6 +16,19 @@ function App() {
         setLoggedIn(true);
     };
 
+    const logout = () => {
+        console.log("callback called");
+        console.trace()
+        fetch(`http://localhost:8080/logout`, {
+            "credentials": "include"
+        }).then(() => {
+            setCurrentUser(null);
+            setSelectedUser(null);
+            setLoggedIn(false);
+            setIsRegistering(false);
+        });
+    };
+
     useEffect(() => {
         const fetchStatus = async () => {
             const res = await fetch(`http://localhost:8080/api/v1/user/me`, {
@@ -52,7 +65,7 @@ function App() {
     return (
         <div className="messenger-layout">
             <div className="userlist-area">
-                <UserList onUserSelect={setSelectedUser} />
+                <UserList onUserSelect={setSelectedUser} currentUser={currentUser} logoutCallback={logout} />
             </div>
             <div className="chat-area">
                 {selectedUser ? (
