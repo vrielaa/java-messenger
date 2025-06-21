@@ -16,11 +16,11 @@ function RegisterForm({ onRegisterSuccess }) {
                 body: JSON.stringify({ login, password }),
             });
 
-            if (res.ok) {
+            if (res.status === 409) {
+                setMessage('Taki login już istnieje. Wybierz inny.');
+            } else if (res.ok) {
                 setMessage('Rejestracja udana 🎉');
                 onRegisterSuccess();
-            } else if (res.status === 409) {
-                setMessage('Login już istnieje. Wybierz inny.');
             } else {
                 const err = await res.text();
                 setMessage(`Błąd: ${err}`);
@@ -31,8 +31,8 @@ function RegisterForm({ onRegisterSuccess }) {
     };
 
     return (
-        <div className={"login-register-container"}>
-            <form onSubmit={handleSubmit} className={"login-register-form"}>
+        <div className="login-register-container">
+            <form onSubmit={handleSubmit} className="login-register-form">
                 <h2>Rejestracja</h2>
                 <input
                     type="text"
@@ -50,18 +50,22 @@ function RegisterForm({ onRegisterSuccess }) {
                 />
                 <button type="submit">Zarejestruj się</button>
                 {message && <p className="error">{message}</p>}
-                <div style={{textAlign: 'center', marginTop: '1rem'}}>
-                    <p style={{margin: 0}}>
+                <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+                    <p style={{ margin: 0 }}>
                         Masz konto?
                     </p>
-                    <button type="button" onClick={onRegisterSuccess} style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#007bff',
-                        cursor: 'pointer',
-                        textDecoration: 'underline',
-                        fontSize: '0.9rem'
-                    }}>
+                    <button
+                        type="button"
+                        onClick={onRegisterSuccess}
+                        style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#007bff',
+                            cursor: 'pointer',
+                            textDecoration: 'underline',
+                            fontSize: '0.9rem'
+                        }}
+                    >
                         Zaloguj się
                     </button>
                 </div>

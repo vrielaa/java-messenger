@@ -1,4 +1,3 @@
-// src/components/UserList.js
 import React, { useEffect, useState } from 'react';
 import './UserList.css';
 
@@ -29,24 +28,26 @@ function UserList({ onUserSelect, currentUser, logoutCallback }) {
     }, []);
 
     return (
-        <div className="userlist-container">
-            Zalogowany jako <b>{currentUser.login}</b>
-            <br />
-            <br />
-            <button className="userlist-button" onClick={logoutCallback}>
-               Wyloguj się
-            </button>
-            <h3 className="userlist-title">Użytkownicy online</h3>
-            {error && <p className="userlist-error">{error}</p>}
-            <ul className="userlist-list">
-                {users.map((user) => (
-                    <li key={user.id} className="userlist-item">
-                        <button className="userlist-button" onClick={() => onUserSelect(user)}>
-                            {user.login}
-                        </button>
-                    </li>
-                ))}
-            </ul>
+        <div className="userlist-background">
+            <div className="userlist-container">
+                Zalogowany jako <b>{currentUser.login}</b>
+                <br />
+                <br />
+                <button className="userlist-button" onClick={logoutCallback}>
+                   Wyloguj się
+                </button>
+                <h3 className="userlist-title">Użytkownicy online</h3>
+                {error && <p className="userlist-error">{error}</p>}
+                <ul className="userlist-list">
+                    {users.map((user) => (
+                        <li key={user.id} className="userlist-item">
+                            <button className="userlist-button" onClick={() => onUserSelect(user)}>
+                                {user.login}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 }

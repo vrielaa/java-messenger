@@ -173,7 +173,7 @@ function ChatWindow({ user, currentUser }) {
 
     return (
         <div>
-            <h3 style={{ color: "#2a5298" }}>Czat z {user.login}</h3>
+            <h3 style={{color: "#12782b"}}>Czat z {user.login}</h3>
             <div className="chat-messages" ref={messagesEndRef}>
                 {messages.map((msg, i) => (
                     <div
@@ -184,15 +184,15 @@ function ChatWindow({ user, currentUser }) {
                     </div>
                 ))}
             </div>
-            <form onSubmit={handleSend} style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
+            <form className="chat-form" onSubmit={handleSend}>
                 <input
+                    className="chat-input"
                     type="text"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Napisz wiadomość..."
-                    style={{ flex: 1, padding: '0.5rem' }}
                 />
-                <button type="submit">Wyślij</button>
+                <button className="chat-send-btn" type="submit">Wyślij</button>
             </form>
         </div>
     );

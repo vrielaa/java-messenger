@@ -65,7 +65,7 @@ function LoginForm({ onLoginSuccess, onSwitchToRegister }) {
                     <button type="button" onClick={onSwitchToRegister} style={{
                         background: 'none',
                         border: 'none',
-                        color: '#007bff',
+                        color: '#12782b',
                         cursor: 'pointer',
                         textDecoration: 'underline',
                         fontSize: '0.9rem'

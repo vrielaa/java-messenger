@@ -71,7 +71,7 @@ function App() {
                 {selectedUser ? (
                     <ChatWindow user={selectedUser} currentUser={currentUser} />
                 ) : (
-                    <p style={{ padding: "1rem", color: "#555" }}>
+                    <p style={{ padding: "1rem", color: "#12782b" }}>
                         Wybierz użytkownika z listy, aby rozpocząć czat.
                     </p>
                 )}

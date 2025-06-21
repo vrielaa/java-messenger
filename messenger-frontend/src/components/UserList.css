@@ -1,4 +1,11 @@
 /* src/components/UserList.css */
+body {
+    background-image: url('logo_java_messenger.png');
+    background-repeat: repeat;
+    background-size: 120px 120px;
+}
+
+
 .userlist-container {
     max-width: 400px;
     margin: 40px auto;
@@ -17,7 +24,7 @@
 }
 
 .userlist-error {
-    color: red;
+    color: #870a0a;
     margin-bottom: 15px;
 }
 
@@ -32,7 +39,7 @@
 
 .userlist-button {
     padding: 10px 20px;
-    background-color: #0077cc;
+    background-color: rgba(22, 133, 49, 0.68);
     border: none;
     border-radius: 6px;
     color: white;
@@ -41,5 +48,5 @@
 }
 
 .userlist-button:hover {
-    background-color: #005fa3;
+    background-color: rgb(18, 120, 43);
 }
