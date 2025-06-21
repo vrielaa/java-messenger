@@ -10,7 +10,6 @@ function RegisterForm({ onRegisterSuccess }) {
         e.preventDefault();
         try {
             const res = await fetch('http://localhost:8080/api/v1/user/register', {
-
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -19,7 +18,9 @@ function RegisterForm({ onRegisterSuccess }) {
 
             if (res.ok) {
                 setMessage('Rejestracja udana 🎉');
-                onRegisterSuccess(); // Przełącz na logowanie
+                onRegisterSuccess();
+            } else if (res.status === 409) {
+                setMessage('Login już istnieje. Wybierz inny.');
             } else {
                 const err = await res.text();
                 setMessage(`Błąd: ${err}`);

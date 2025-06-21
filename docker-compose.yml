@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_DB: messenger-db
       POSTGRES_USER: sa
-      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
     volumes:
@@ -19,7 +19,15 @@ services:
     depends_on:
       - db
     environment:
-      SPRING_DATASOURCE_PASSWORD: ${PG_PASSWORD}
+      SPRING_DATASOURCE_PASSWORD: password
+  test:
+    image: java-messenger:0.0.1-SNAPSHOT
+    command: mvn test
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_PASSWORD: password
 
 volumes:
   pgdata:
+

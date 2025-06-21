@@ -5,6 +5,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class LoginNotFoundException extends ResponseStatusException {
     public LoginNotFoundException(String login) {
-        super(HttpStatus.UNAUTHORIZED, "User with login '%s' not found");
+        super(HttpStatus.UNAUTHORIZED, String.format("User with login '%s' not found", login));
     }
 }
