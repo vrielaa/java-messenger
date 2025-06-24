@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source selenium-e2e/venv/bin/activate
+source venv/bin/activate
 OK=0
 for file in tests/*; do
     python3 "$file"
