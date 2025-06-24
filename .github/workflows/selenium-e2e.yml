@@ -37,9 +37,9 @@ jobs:
       working-directory: ./messenger-frontend
       run: npm ci
 
-    - name: Build frontend (if needed)
+    - name: Build frontend
       working-directory: ./messenger-frontend
-      run: npm run build
+      run: npm run start
 
     - name: Build backend
       run: ./mvnw package -DskipTests
