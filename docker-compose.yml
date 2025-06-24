@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15
@@ -16,13 +14,6 @@ services:
     image: java-messenger:0.0.1-SNAPSHOT
     ports:
       - "8080:8080"
-    depends_on:
-      - db
-    environment:
-      SPRING_DATASOURCE_PASSWORD: password
-  test:
-    image: java-messenger:0.0.1-SNAPSHOT
-    command: mvn test
     depends_on:
       - db
     environment:
