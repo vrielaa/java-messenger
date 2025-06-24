@@ -99,7 +99,7 @@ public class UserController {
     }
 
     /**
-     * @brief Zwraca listę użytkowników online (bez aktualnego użytkownika).
+     * @brief Zwraca listę użytkowników (bez aktualnego użytkownika).
      *
      * Endpoint tylko dla uwierzytelnionych użytkowników.
      *
@@ -108,9 +108,9 @@ public class UserController {
      */
     @GetMapping("/online")
     @PreAuthorize("isAuthenticated()")
-    public List<UserDTO> getOnlineUsers(Authentication auth) {
+    public List<UserDTO> getUsers(Authentication auth) {
         String currentLogin = auth.getName();
-        return userService.getOnlineUsersExcept(currentLogin).stream()
+        return userService.getUsersExcept(currentLogin).stream()
                 .map(user -> new UserDTO(user.getId(), user.getLogin()))
                 .collect(Collectors.toList());
     }
