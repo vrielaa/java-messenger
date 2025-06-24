@@ -49,9 +49,6 @@ jobs:
     - name: Start application stack
       run: docker compose up -d
 
-    - name: Wait for services to be ready
-      run: sleep 15
-
     - name: Set up Python virtual environment
       working-directory: ./selenium-e2e
       run: |
