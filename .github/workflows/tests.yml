@@ -1,4 +1,4 @@
-name: Selenium E2E Tests
+name: Tests
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
         CI: true
 
     - name: Build backend
-      run: ./mvnw package -DskipTests
+      run: ./mvnw package
 
     - name: Start application stack
       run: docker compose up -d
