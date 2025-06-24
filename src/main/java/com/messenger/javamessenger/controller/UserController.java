@@ -95,8 +95,6 @@ public class UserController {
 
         securityContextRepository.saveContext(context, request, response);
 
-        userService.markUserOnline(principal.getUsername()); ///< Oznaczenie użytkownika jako online
-
         return principal.getUser();
     }
 

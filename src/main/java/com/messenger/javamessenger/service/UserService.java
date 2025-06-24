@@ -25,10 +25,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UserService {
-
     private final UserRepository userRepository; ///< Repozytorium użytkowników.
     private final PasswordEncoder passwordEncoder; ///< Encoder haseł.
-    private final Set<String> onlineUsers = ConcurrentHashMap.newKeySet(); ///< Zbiór loginów użytkowników online.
 
     /**
      * @brief Konstruktor serwisu użytkownika.
@@ -85,30 +83,13 @@ public class UserService {
     }
 
     /**
-     * @brief Oznacza użytkownika jako online.
-     * @param login Login użytkownika do oznaczenia.
-     */
-    public void markUserOnline(String login) {
-        onlineUsers.add(login);
-    }
-
-    /**
-     * @brief Oznacza użytkownika jako offline.
-     * @param login Login użytkownika do usunięcia z listy online.
-     */
-    public void markUserOffline(String login) {
-        onlineUsers.remove(login);
-    }
-
-    /**
-     * @brief Zwraca listę użytkowników online z wyłączeniem aktualnego.
+     * @brief Zwraca listę użytkowników z wyłączeniem aktualnego.
      *
      * @param login Login użytkownika, który ma być pominięty.
-     * @return Lista encji użytkowników online, poza wskazanym.
+     * @return Lista encji użytkowników, poza wskazanym.
      */
-    public List<UserEntity> getOnlineUsersExcept(String login) {
+    public List<UserEntity> getUsersExcept(String login) {
         return userRepository.findAll().stream()
-                .filter(user -> onlineUsers.contains(user.getLogin()))
                 .filter(user -> !user.getLogin().equals(login))
                 .collect(Collectors.toList());
     }

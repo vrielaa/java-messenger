@@ -36,7 +36,7 @@ function UserList({ onUserSelect, currentUser, logoutCallback }) {
                 <button className="userlist-button" onClick={logoutCallback}>
                    Wyloguj się
                 </button>
-                <h3 className="userlist-title">Użytkownicy online</h3>
+                <h3 className="userlist-title">Użytkownicy</h3>
                 {error && <p className="userlist-error">{error}</p>}
                 <ul className="userlist-list">
                     {users.map((user) => (
