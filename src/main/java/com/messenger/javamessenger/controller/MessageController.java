@@ -11,22 +11,20 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * @class MessageController
- * @brief Kontroler REST obsługujący operacje związane z wiadomościami.
- *
+ * Kontroler REST obsługujący operacje związane z wiadomościami.
  * Umożliwia wysyłanie i pobieranie wiadomości między użytkownikami.
  */
 @RestController
 @RequestMapping("/api/v1/message")
 public class MessageController {
 
-    private final MessageService messageService; ///< Serwis obsługujący logikę wiadomości.
-    private final PrincipalUtils principalUtils; ///< Narzędzie do uzyskiwania aktualnie zalogowanego użytkownika.
+    private final MessageService messageService;
+    private final PrincipalUtils principalUtils;
 
     /**
-     * @brief Konstruktor kontrolera wiadomości.
-     * @param messageService Serwis wiadomości.
-     * @param principalUtils Narzędzie pomocnicze do uzyskiwania informacji o zalogowanym użytkowniku.
+     * Tworzy kontroler wiadomości.
+     * @param messageService serwis wiadomości
+     * @param principalUtils narzędzie pomocnicze do uzyskiwania informacji o zalogowanym użytkowniku
      */
     public MessageController(MessageService messageService, PrincipalUtils principalUtils) {
         this.messageService = messageService;
@@ -34,11 +32,10 @@ public class MessageController {
     }
 
     /**
-     * @brief Endpoint do wysyłania wiadomości.
-     *
+     * Endpoint do wysyłania wiadomości.
      * Metoda przyjmuje dane wiadomości jako JSON i deleguje ich obsługę do warstwy serwisowej.
      *
-     * @param dto Obiekt DTO zawierający dane wysyłanej wiadomości.
+     * @param dto obiekt DTO zawierający dane wysyłanej wiadomości
      */
     @PostMapping
     @PreAuthorize("isAuthenticated()")
@@ -47,12 +44,11 @@ public class MessageController {
     }
 
     /**
-     * @brief Endpoint do pobierania historii wiadomości z danym użytkownikiem.
-     *
+     * Endpoint do pobierania historii wiadomości z danym użytkownikiem.
      * Zwraca listę wiadomości między zalogowanym użytkownikiem a użytkownikiem o podanym ID.
      *
-     * @param otherUserId UUID drugiego użytkownika w rozmowie.
-     * @return Lista obiektów MessageEntity reprezentujących historię rozmowy.
+     * @param otherUserId UUID drugiego użytkownika w rozmowie
+     * @return lista obiektów MessageEntity reprezentujących historię rozmowy
      */
     @GetMapping("/{otherUserId}")
     @PreAuthorize("isAuthenticated()")

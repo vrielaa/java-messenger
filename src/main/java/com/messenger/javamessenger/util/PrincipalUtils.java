@@ -6,15 +6,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
- * @class PrincipalUtils
- * @brief Klasa pomocnicza do uzyskiwania aktualnie zalogowanego użytkownika.
+ * Klasa pomocnicza do uzyskiwania aktualnie zalogowanego użytkownika.
  */
 @Component
 public class PrincipalUtils {
 
     /**
-     * @brief Zwraca pełny obiekt UserDetailsWithEntity z kontekstu bezpieczeństwa.
-     * @return Obiekt UserDetailsWithEntity reprezentujący aktualnego użytkownika.
+     * Zwraca obiekt UserDetailsWithEntity z kontekstu bezpieczeństwa.
+     *
+     * @return obiekt UserDetailsWithEntity reprezentujący aktualnego użytkownika
      */
     public UserDetailsWithEntity getPrincipal() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -25,8 +25,9 @@ public class PrincipalUtils {
     }
 
     /**
-     * @brief Zwraca encję UserEntity aktualnie zalogowanego użytkownika.
-     * @return Encja użytkownika z bazy danych.
+     * Zwraca encję UserEntity aktualnie zalogowanego użytkownika.
+     *
+     * @return encja użytkownika z bazy danych
      */
     public UserEntity getCurrentUserEntity() {
         return getPrincipal().getUser();

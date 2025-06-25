@@ -17,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
+
 /**
  * Konfiguracja bezpieczeństwa aplikacji Messenger.
  */
@@ -25,11 +26,11 @@ import java.util.List;
 public class SecurityConfig {
 
     /**
-     * Konfiguracja łańcucha filtrów bezpieczeństwa.
+     * Konfiguruje łańcuch filtrów bezpieczeństwa.
      *
-     * @param http Obiekt HttpSecurity do konfiguracji zabezpieczeń.
-     * @return Skonfigurowany SecurityFilterChain.
-     * @throws Exception Jeśli wystąpi błąd konfiguracji.
+     * @param http obiekt HttpSecurity do konfiguracji zabezpieczeń
+     * @return skonfigurowany SecurityFilterChain
+     * @throws Exception w przypadku błędu konfiguracji
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -43,7 +44,6 @@ public class SecurityConfig {
                     config.setAllowCredentials(true);
                     return config;
                 }))
-
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .anonymous(AbstractHttpConfigurer::disable)
@@ -51,11 +51,11 @@ public class SecurityConfig {
                 .logout(logout -> logout.logoutUrl("/logout")
                         .logoutSuccessHandler((request, response, authentication) -> {
                             /**
-                             * Obsługa wylogowania - usuwa ciasteczko sesji i zwraca kod 200 OK.
+                             * Obsługuje wylogowanie - usuwa ciasteczko sesji i zwraca kod 200 OK.
                              *
-                             * @param request Obiekt HttpServletRequest.
-                             * @param response Obiekt HttpServletResponse.
-                             * @param authentication Obiekt Authentication reprezentujący uwierzytelnionego użytkownika.
+                             * @param request obiekt HttpServletRequest
+                             * @param response obiekt HttpServletResponse
+                             * @param authentication obiekt Authentication reprezentujący uwierzytelnionego użytkownika
                              */
                             Cookie emptySessionIdCookie = new Cookie("JSESSIONID", null);
                             emptySessionIdCookie.setMaxAge(0);
@@ -70,11 +70,11 @@ public class SecurityConfig {
     }
 
     /**
-     * Konfiguracja menedżera uwierzytelniania.
+     * Konfiguruje menedżera uwierzytelniania.
      *
-     * @param userDetailsService Serwis do zarządzania danymi użytkowników.
-     * @param passwordEncoder Kodujący hasło użytkownika.
-     * @return Skonfigurowany AuthenticationManager.
+     * @param userDetailsService serwis do zarządzania danymi użytkowników
+     * @param passwordEncoder kodujący hasło użytkownika
+     * @return skonfigurowany AuthenticationManager
      */
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService,
@@ -87,7 +87,7 @@ public class SecurityConfig {
     /**
      * Tworzy instancję kodera hasła.
      *
-     * @return Koder hasła BCryptPasswordEncoder.
+     * @return koder hasła BCryptPasswordEncoder
      */
     @Bean
     public PasswordEncoder passwordEncoder() {

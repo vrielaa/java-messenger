@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 /**
- * @class UserDTO
- * @brief DTO służące do przekazywania danych użytkownika.
- *
+ * DTO służące do przekazywania danych użytkownika.
  * Używane przy rejestracji, logowaniu oraz zwracaniu informacji o użytkownikach (np. online).
  */
 @Data
@@ -19,30 +17,27 @@ import java.util.UUID;
 public class UserDTO {
 
     /**
-     * @brief Login użytkownika.
-     *
+     * Login użytkownika.
      * Pole wymagane – nie może być puste.
      */
     @NotBlank
     private String login;
 
     /**
-     * @brief Hasło użytkownika.
-     *
+     * Hasło użytkownika.
      * Pole wymagane – nie może być puste.
      */
     @NotBlank
     private String password;
 
     /**
-     * @brief Unikalny identyfikator użytkownika.
-     *
+     * Unikalny identyfikator użytkownika.
      * Może być ustawiany tylko w niektórych przypadkach, np. przy zwracaniu danych o użytkowniku.
      */
     private UUID id;
 
     /**
-     * @brief Konstruktor pomocniczy do zwracania tylko ID i loginu (np. w liście użytkowników online).
+     * Konstruktor pomocniczy do zwracania tylko ID i loginu (np. w liście użytkowników online).
      *
      * @param id Identyfikator użytkownika.
      * @param login Login użytkownika.

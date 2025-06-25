@@ -22,23 +22,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @class UserController
- * @brief Kontroler REST do operacji użytkownika: rejestracja, logowanie, lista użytkowników online.
+ * Kontroler REST do operacji użytkownika: rejestracja, logowanie, lista użytkowników online.
  */
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-    private final UserService userService; ///< Serwis do obsługi operacji użytkownika.
-    private final AuthenticationManager authenticationManager; ///< Menedżer uwierzytelniania Spring Security.
-    private final SecurityContextHolderStrategy contextHolderStrategy = SecurityContextHolder.getContextHolderStrategy(); ///< Strategia trzymania kontekstu bezpieczeństwa.
+    private final UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final SecurityContextHolderStrategy contextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
     private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
-    private final PrincipalUtils principalUtils; ///< Repozytorium kontekstu bezpieczeństwa w sesji.
+    private final PrincipalUtils principalUtils;
 
     /**
-     * @brief Konstruktor kontrolera użytkownika.
-     * @param userService Serwis użytkownika.
-     * @param authenticationManager Menedżer uwierzytelniania.
+     * Tworzy kontroler użytkownika.
+     * @param userService serwis użytkownika
+     * @param authenticationManager menedżer uwierzytelniania
+     * @param principalUtils narzędzie pomocnicze do uzyskiwania informacji o zalogowanym użytkowniku
      */
     public UserController(UserService userService, AuthenticationManager authenticationManager, PrincipalUtils principalUtils) {
         this.userService = userService;
@@ -47,12 +47,11 @@ public class UserController {
     }
 
     /**
-     * @brief Rejestruje nowego użytkownika.
-     *
+     * Rejestruje nowego użytkownika.
      * Endpoint dostępny publicznie, przyjmujący dane użytkownika i zwracający zarejestrowany obiekt.
      *
-     * @param userDTO Dane rejestracyjne (login, hasło).
-     * @return Obiekt UserEntity nowo zarejestrowanego użytkownika.
+     * @param userDTO dane rejestracyjne (login, hasło)
+     * @return obiekt UserEntity nowo zarejestrowanego użytkownika
      */
     @PostMapping("/register")
     @PreAuthorize("permitAll()")
@@ -60,6 +59,11 @@ public class UserController {
         return userService.registerUser(userDTO);
     }
 
+    /**
+     * Zwraca dane aktualnie zalogowanego użytkownika.
+     *
+     * @return encja użytkownika
+     */
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated")
     public UserEntity me() {
@@ -67,14 +71,13 @@ public class UserController {
     }
 
     /**
-     * @brief Loguje użytkownika i zapisuje kontekst bezpieczeństwa.
-     *
+     * Loguje użytkownika i zapisuje kontekst bezpieczeństwa.
      * Endpoint przyjmujący dane logowania, wykonujący uwierzytelnienie oraz zapis kontekstu w sesji HTTP.
      *
-     * @param userDTO Dane logowania (login, hasło).
-     * @param request Obiekt żądania HTTP.
-     * @param response Obiekt odpowiedzi HTTP.
-     * @return Obiekt UserEntity zalogowanego użytkownika.
+     * @param userDTO dane logowania (login, hasło)
+     * @param request obiekt żądania HTTP
+     * @param response obiekt odpowiedzi HTTP
+     * @return obiekt UserEntity zalogowanego użytkownika
      */
     @PostMapping("/login")
     @PreAuthorize("permitAll()")
@@ -99,12 +102,11 @@ public class UserController {
     }
 
     /**
-     * @brief Zwraca listę użytkowników (bez aktualnego użytkownika).
-     *
+     * Zwraca listę użytkowników (bez aktualnego użytkownika).
      * Endpoint tylko dla uwierzytelnionych użytkowników.
      *
-     * @param auth Obiekt uwierzytelnienia zawierający login aktualnego użytkownika.
-     * @return Lista UserDTO reprezentujących użytkowników online.
+     * @param auth obiekt uwierzytelnienia zawierający login aktualnego użytkownika
+     * @return lista UserDTO reprezentujących użytkowników online
      */
     @GetMapping("/online")
     @PreAuthorize("isAuthenticated()")

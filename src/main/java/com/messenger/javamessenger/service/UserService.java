@@ -18,20 +18,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
- * @class UserService
- * @brief Serwis odpowiedzialny za logikę biznesową związaną z użytkownikami.
- *
+ * Serwis odpowiedzialny za logikę biznesową związaną z użytkownikami.
  * Obsługuje rejestrację, walidację, status online i dostęp do listy użytkowników.
  */
 @Service
 public class UserService {
-    private final UserRepository userRepository; ///< Repozytorium użytkowników.
-    private final PasswordEncoder passwordEncoder; ///< Encoder haseł.
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
-     * @brief Konstruktor serwisu użytkownika.
-     * @param userRepository Repozytorium użytkowników.
-     * @param passwordEncoder Encoder haseł.
+     * Tworzy serwis użytkownika.
+     * @param userRepository repozytorium użytkowników
+     * @param passwordEncoder encoder haseł
      */
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -39,14 +37,13 @@ public class UserService {
     }
 
     /**
-     * @brief Rejestruje nowego użytkownika w systemie.
-     *
+     * Rejestruje nowego użytkownika w systemie.
      * Sprawdza unikalność loginu, waliduje dane i zapisuje użytkownika z hasłem zakodowanym.
      *
-     * @param dto Obiekt DTO z loginem i hasłem.
-     * @return Zarejestrowana encja użytkownika.
-     * @throws UserLoginIsTakenException jeśli login jest już zajęty.
-     * @throws InvalidFieldException jeśli login lub hasło są puste.
+     * @param dto obiekt DTO z loginem i hasłem
+     * @return zarejestrowana encja użytkownika
+     * @throws UserLoginIsTakenException jeśli login jest już zajęty
+     * @throws InvalidFieldException jeśli login lub hasło są puste
      */
     public UserEntity registerUser(UserDTO dto) {
         if (userRepository.existsByLogin(dto.getLogin())) {
@@ -60,10 +57,10 @@ public class UserService {
     }
 
     /**
-     * @brief Waliduje dane użytkownika (login i hasło).
+     * Waliduje dane użytkownika (login i hasło).
      *
-     * @param dto Dane użytkownika do walidacji.
-     * @throws InvalidFieldException jeśli dane są niepoprawne (puste lub null).
+     * @param dto dane użytkownika do walidacji
+     * @throws InvalidFieldException jeśli dane są niepoprawne (puste lub null)
      */
     private void validateUserDto(UserDTO dto) throws ResponseStatusException {
         if (dto.getLogin() == null || dto.getLogin().isEmpty()) {
@@ -75,18 +72,18 @@ public class UserService {
     }
 
     /**
-     * @brief Zwraca listę wszystkich użytkowników.
-     * @return Lista wszystkich użytkowników z bazy danych.
+     * Zwraca listę wszystkich użytkowników.
+     * @return lista wszystkich użytkowników z bazy danych
      */
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
 
     /**
-     * @brief Zwraca listę użytkowników z wyłączeniem aktualnego.
+     * Zwraca listę użytkowników z wyłączeniem aktualnego.
      *
-     * @param login Login użytkownika, który ma być pominięty.
-     * @return Lista encji użytkowników, poza wskazanym.
+     * @param login login użytkownika, który ma być pominięty
+     * @return lista encji użytkowników, poza wskazanym
      */
     public List<UserEntity> getUsersExcept(String login) {
         return userRepository.findAll().stream()

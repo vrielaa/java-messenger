@@ -13,21 +13,20 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * @class MessageService
- * @brief Serwis obsługujący logikę wiadomości użytkowników.
- *
- * Odpowiada za pobieranie, zapisywanie i rozgłaszanie wiadomości przy użyciu WebSocketów.
+ * Service odpowiedzialny za obsługę logiki wiadomości użytkowników.
+ * Pozwala na pobieranie, zapisywanie i rozgłaszanie wiadomości z użyciem WebSocket.
  */
 @Service
 public class MessageService {
 
-    private final MessageRepository messageRepository; ///< Repozytorium wiadomości.
-    private final SimpMessagingTemplate messagingTemplate; ///< Narzędzie do wysyłania wiadomości STOMP/WebSocket.
+    private final MessageRepository messageRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
     /**
-     * @brief Konstruktor serwisu wiadomości.
-     * @param messageRepository Repozytorium do zapisu i odczytu wiadomości.
-     * @param messagingTemplate Szablon do wysyłania wiadomości WebSocket.
+     * Konstruktor serwisu wiadomości.
+     *
+     * @param messageRepository repozytorium do zapisu i odczytu wiadomości
+     * @param messagingTemplate szablon do wysyłania wiadomości WebSocket
      */
     public MessageService(MessageRepository messageRepository,
                           SimpMessagingTemplate messagingTemplate) {
@@ -36,21 +35,21 @@ public class MessageService {
     }
 
     /**
-     * @brief Pobiera wszystkie wiadomości pomiędzy dwoma użytkownikami.
+     * Pobiera wszystkie wiadomości pomiędzy dwoma użytkownikami.
      *
-     * @param user Aktualnie zalogowany użytkownik.
-     * @param otherUserId UUID drugiego użytkownika w konwersacji.
-     * @return Lista wiadomości uporządkowanych chronologicznie.
+     * @param user aktualnie zalogowany użytkownik
+     * @param otherUserId UUID drugiego użytkownika w konwersacji
+     * @return lista wiadomości uporządkowanych chronologicznie
      */
     public List<MessageEntity> getAllMessages(UserEntity user, UUID otherUserId) {
         return messageRepository.findMessagesByUserIds(user.getId(), otherUserId);
     }
 
     /**
-     * @brief Zapisuje nową wiadomość i rozsyła ją do obu stron rozmowy.
+     * Zapisuje nową wiadomość i rozsyła ją do obu stron rozmowy.
      *
-     * @param messageDTO Obiekt DTO z treścią wiadomości.
-     * @param user Użytkownik wysyłający wiadomość.
+     * @param messageDTO obiekt DTO z treścią wiadomości
+     * @param user użytkownik wysyłający wiadomość
      */
     public void sendMessage(MessageDTO messageDTO, UserEntity user) {
         MessageEntity savedMsg = messageRepository.save(MessageEntity.builder()
@@ -63,20 +62,20 @@ public class MessageService {
     }
 
     /**
-     * @brief Rozsyła wiadomość do wybranych użytkowników po WebSocket.
+     * Rozsyła wiadomość do wybranych użytkowników po WebSocket.
      *
-     * @param message Wiadomość do wysłania.
-     * @param userUuids Tablica UUID użytkowników, do których ma zostać wysłana wiadomość.
+     * @param message wiadomość do wysłania
+     * @param userUuids tablica UUID użytkowników, do których ma zostać wysłana wiadomość
      */
     public void fanoutMessage(MessageEntity message, UUID... userUuids) {
         Arrays.stream(userUuids).forEach(userUuid -> sendOverWebSocket(message, userUuid));
     }
 
     /**
-     * @brief Wysyła wiadomość do pojedynczego użytkownika na kanał WebSocket.
+     * Wysyła wiadomość do pojedynczego użytkownika na kanał WebSocket.
      *
-     * @param message Wiadomość do wysłania.
-     * @param userUuid UUID użytkownika, do którego zostanie wysłana wiadomość.
+     * @param message wiadomość do wysłania
+     * @param userUuid UUID użytkownika, do którego zostanie wysłana wiadomość
      */
     private void sendOverWebSocket(MessageEntity message, UUID userUuid) {
         messagingTemplate.convertAndSend("/topic/messages/" + userUuid, message);

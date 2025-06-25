@@ -8,24 +8,22 @@ import org.springframework.security.core.userdetails.User;
 import java.util.Collection;
 
 /**
- * @class UserDetailsWithEntity
- * @brief Rozszerzenie klasy User Spring Security o encję UserEntity.
- *
+ * Rozszerzenie klasy User Spring Security o encję UserEntity.
  * Umożliwia dostęp do pełnych danych użytkownika (z bazy) w kontekście bezpieczeństwa.
  */
 @Getter
 public class UserDetailsWithEntity extends User {
 
     /**
-     * @brief Obiekt encji użytkownika przechowywany wraz z danymi logowania.
+     * Obiekt encji użytkownika przechowywany wraz z danymi logowania.
      */
     private final UserEntity user;
 
     /**
-     * @brief Konstruktor przypisujący użytkownika i jego uprawnienia.
+     * Tworzy UserDetails z encją użytkownika i uprawnieniami.
      *
-     * @param user Obiekt encji użytkownika z bazy danych.
-     * @param authorities Lista uprawnień przypisana do użytkownika (np. ROLE_USER).
+     * @param user obiekt encji użytkownika z bazy danych
+     * @param authorities lista uprawnień przypisana do użytkownika (np. ROLE_USER)
      */
     public UserDetailsWithEntity(UserEntity user, Collection<? extends GrantedAuthority> authorities) {
         super(user.getLogin(), user.getPasswordHash(), authorities);
