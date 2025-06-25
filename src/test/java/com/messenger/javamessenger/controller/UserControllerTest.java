@@ -42,11 +42,11 @@ private PrincipalUtils principalUtils;
         UserEntity user = new UserEntity();
         user.setId(UUID.randomUUID());
         user.setLogin("otheruser");
-        when(userService.getOnlineUsersExcept("testuser")).thenReturn(List.of(user));
+        when(userService.getUsersExcept("testuser")).thenReturn(List.of(user));
 
         mockMvc.perform(get("/api/v1/user/online"))
                 .andExpect(status().isOk());
 
-        verify(userService, times(1)).getOnlineUsersExcept("testuser");
+        verify(userService, times(1)).getUsersExcept("testuser");
     }
 }

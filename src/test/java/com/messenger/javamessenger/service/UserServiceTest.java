@@ -67,18 +67,7 @@ class UserServiceTest {
         assertThrows(InvalidFieldException.class, () -> service.registerUser(dto));
     }
 
-    @Test
-    void shouldMarkUserOnlineAndOffline() {
-        UserRepository repo = mock(UserRepository.class);
-        PasswordEncoder encoder = mock(PasswordEncoder.class);
-        UserService service = new UserService(repo, encoder);
 
-        service.markUserOnline("user1");
-        assertTrue(service.getOnlineUsersExcept("user2").isEmpty());
-
-        service.markUserOffline("user1");
-        assertTrue(service.getOnlineUsersExcept("user2").isEmpty());
-    }
 
     @Test
     void shouldGetAllUsers() {
