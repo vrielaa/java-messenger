@@ -4,6 +4,7 @@
 # Compile, test and build docker image:
 ```shell
 mvn install
+mvn install -DskipTests clean
 ```
 # Run with docker
 ```shell
